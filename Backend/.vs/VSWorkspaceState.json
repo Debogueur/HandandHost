@@ -1,0 +1,14 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\src",
+    "\\src\\controller",
+    "\\src\\core",
+    "\\src\\entity",
+    "\\src\\middleware",
+    "\\src\\seeder",
+    "\\src\\validation"
+  ],
+  "SelectedNode": "\\src\\controller\\category.controller.ts",
+  "PreviewInSolutionExplorer": false
+}

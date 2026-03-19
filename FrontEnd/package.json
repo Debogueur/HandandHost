@@ -1,0 +1,75 @@
+{
+  "name": "Hand & Host",
+  "version": "1.1.0",
+  "private": true,
+  "homepage": ".",
+  "dependencies": {
+    "@fullcalendar/core": "^6.1.15",
+    "@fullcalendar/daygrid": "^6.1.15",
+    "@fullcalendar/interaction": "^6.1.15",
+    "@fullcalendar/react": "^6.1.15",
+    "@outofaxis/react-dropzone-uploader": "^3.1.2",
+    "@reduxjs/toolkit": "^2.2.1",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.1.0",
+    "@testing-library/user-event": "^14.5.2",
+    "@tiptap/extension-image": "^2.23.1",
+    "@tiptap/extension-link": "^2.23.1",
+    "@tiptap/extension-placeholder": "^2.23.1",
+    "@tiptap/extension-underline": "^2.23.1",
+    "@tiptap/react": "^2.23.1",
+    "@tiptap/starter-kit": "^2.23.1",
+    "apexcharts": "^4.2.0",
+    "axios": "^1.13.6",
+    "bootstrap": "^5.3.8",
+    "dropify": "^0.2.2",
+    "dropzone": "^6.0.0-beta.2",
+    "google-map-react": "^2.2.1",
+    "react": "^19.0.0",
+    "react-apexcharts": "^1.7.0",
+    "react-bootstrap": "^2.10.7",
+    "react-collapse": "^5.1.1",
+    "react-color": "^2.19.3",
+    "react-color-picker": "^4.0.2",
+    "react-data-table-component": "^7.7.0",
+    "react-dom": "^19.0.0",
+    "react-dropzone": "^14.3.5",
+    "react-dropzone-uploader": "^2.11.0",
+    "react-dual-listbox": "^6.0.3",
+    "react-image-crop": "^11.0.7",
+    "react-redux": "^9.2.0",
+    "react-router-dom": "^7.0.2",
+    "react-scripts": "^5.0.1",
+    "react-syntax-highlighter": "^15.6.1",
+    "sass": "^1.72.0",
+    "styled-components": "^6.1.13",
+    "web-vitals": "^4.2.4"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "ajv": "^8.17.1"
+  }
+}
