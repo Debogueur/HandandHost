@@ -16,7 +16,7 @@ import {
     FETCH_CATEGORY_DETAILS_FAIL
 } from '../Constants/CategoryConstants';
 
-const API_URL = 'http://98.130.134.218:8000/api';
+const API_URL = 'http://40.192.14.4:8000/api';
 
 // Helper to get config
 const getAuthConfig = () => {
