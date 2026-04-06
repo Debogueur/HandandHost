@@ -11,7 +11,7 @@ import {
 } from "typeorm";
 import { Product } from "./product.entity"; // Assuming your Product file path
 
-@Entity()
+@Entity({name: "category"})
 @Tree("materialized-path") // Efficient way to query trees
 export class Category extends BaseEntity {
     @PrimaryGeneratedColumn()
@@ -22,6 +22,16 @@ export class Category extends BaseEntity {
 
     @Column({ nullable: true })
     description: string;
+
+    @Column({ nullable: false, default: 1 })
+    active: number;
+
+    @Column({ nullable: true })
+    image: string;
+
+    @Column()
+    imagealt: string;
+
 
     // This points to the parent category
     @TreeParent()

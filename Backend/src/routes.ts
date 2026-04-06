@@ -7,6 +7,7 @@ import { CreateRole, DeleteRole, GetRole, Roles, UpdateRole } from "./controller
 import { CreateProduct, DeleteProduct, GetProduct, Products, UpdateProduct } from "./controller/product.controller";
 import { CreateCategory, DeleteCategory, GetCategory, Categories, UpdateCategory } from "./controller/category.controller";
 import { HomeBanner } from "./controller/home.controller";
+import { subcategorylist } from "./controller/home.controller";
 
 import { Upload } from "./controller/image.controller";
 import { Chart, Export, Orders } from "./controller/order.controller";
@@ -66,5 +67,6 @@ export const routes = (router: Router) => {
 
     /*****************Website****************************** */
     router.get('/api/homebanner', HomeBanner);
+    router.get('/api/subcategorylist', subcategorylist);
 
 }
