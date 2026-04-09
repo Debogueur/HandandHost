@@ -70,6 +70,30 @@ export const GetProduct = async (req: Request, res: Response) => {
     }
 };
 
+
+
+export const GetOneProduct = async (req: Request, res: Response) => {
+    try {
+        const id = parseInt(req.params.id);
+        const repository = AppDataSource.getRepository(Product);
+
+        const product = await repository.findOne({
+            where: { 
+                id: id,
+                active: 1
+            },
+            relations: ['category', 'productImages'] // added this
+        });
+
+        if (!product) {
+            return res.status(404).json({ message: "Product not found or inactive" });
+        }
+
+        res.send( product );
+    } catch (error: any) {
+        res.status(500).json({ message: error.message });
+    }
+};
 // 4. Update Product
 export const UpdateProduct = async (req: Request, res: Response) => {
     try {

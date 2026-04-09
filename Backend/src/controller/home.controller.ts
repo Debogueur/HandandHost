@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { Home } from "../entity/home.entity";
 import { Category } from "../entity/category.entity";
+import { Product } from "../entity/product.entity";
 import { AppDataSource } from "../core/database-config";
 
 
@@ -32,6 +33,29 @@ export const subcategorylist = async (req: Request, res: Response) => {
         .createQueryBuilder("subcategory") //alias (NOT table name)
         .where("subcategory.active = :active", { active: 1 })
         .andWhere("subcategory.parentId IS NOT NULL")
+        .getMany();
+
+        res.send(data );
+    } catch (error: any) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+
+
+export const Homeproduct = async (req: Request, res: Response) => {
+    try {
+        const id = parseInt(req.params.id);
+        const repository = AppDataSource.getRepository(Product);
+
+       const data = await repository
+        .createQueryBuilder("product")
+        // .innerJoin(
+        //     "productimages", 
+        //     "pi",           
+        //     "pi.productId = product.id"
+        // )
+        .where("product.active = :active", { active: 1 })
         .getMany();
 
         res.send(data );

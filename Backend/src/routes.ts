@@ -4,10 +4,12 @@ import { AuthMiddleware } from "./middleware/auth.middleware";
 import { CreateUser, DeleteUser, GetUser, UpdateUser, Users } from "./controller/user.controller";
 import { Permissions } from "./controller/permission.controller";
 import { CreateRole, DeleteRole, GetRole, Roles, UpdateRole } from "./controller/role.controller";
-import { CreateProduct, DeleteProduct, GetProduct, Products, UpdateProduct } from "./controller/product.controller";
+import { CreateProduct, DeleteProduct, GetProduct, GetOneProduct, Products, UpdateProduct } from "./controller/product.controller";
 import { CreateCategory, DeleteCategory, GetCategory, Categories, UpdateCategory } from "./controller/category.controller";
 import { HomeBanner } from "./controller/home.controller";
 import { subcategorylist } from "./controller/home.controller";
+import { Homeproduct } from "./controller/home.controller";
+import { AddProductToWishlist } from "./controller/wishlist.controller";
 
 import { Upload } from "./controller/image.controller";
 import { Chart, Export, Orders } from "./controller/order.controller";
@@ -68,5 +70,12 @@ export const routes = (router: Router) => {
     /*****************Website****************************** */
     router.get('/api/homebanner', HomeBanner);
     router.get('/api/subcategorylist', subcategorylist);
+    router.get('/api/homeproduct', Homeproduct);
+
+
+    router.get('/api/add-to-wishlist', AddProductToWishlist);
+
+
+    router.get('/api/home/products/view/:id', GetOneProduct);
 
 }
