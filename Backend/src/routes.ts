@@ -73,7 +73,7 @@ export const routes = (router: Router) => {
     router.get('/api/homeproduct', Homeproduct);
 
 
-    router.get('/api/add-to-wishlist', AddProductToWishlist);
+    router.post('/api/add-to-wishlist', AddProductToWishlist);
 
 
     router.get('/api/home/products/view/:id', GetOneProduct);
