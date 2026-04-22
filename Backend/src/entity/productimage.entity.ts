@@ -1,19 +1,33 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from "typeorm";
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  JoinColumn,
+  BaseEntity,
+} from "typeorm";
+
 import { Product } from "./product.entity";
 
-@Entity('productimages')
-export class ProductImage {
+@Entity("product_images")
+export class ProductImage extends BaseEntity {
+  @PrimaryGeneratedColumn()
+  productimage_ID: number;
 
-    @PrimaryGeneratedColumn()
-    id: number;
+  @Column()
+  product_ID: number;
 
-    @Column()
-    productId: number;
+  @Column({ type: "text" })
+  image: string;
 
-    @Column()
-    images: string;
+  @Column({ default: 0 })
+  sort_order: number;
 
-    @ManyToOne(() => Product, (product) => product.productImages)
-    @JoinColumn({ name: "productId" }) //  very important
-    product: Product;
+  @ManyToOne(
+    () => Product,
+    (product) => product.productImages,
+    { onDelete: "CASCADE" }
+  )
+  @JoinColumn({ name: "product_ID" })
+  product: Product;
 }

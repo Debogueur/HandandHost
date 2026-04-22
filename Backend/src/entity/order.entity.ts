@@ -1,31 +1,89 @@
-import { BaseEntity, Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import {
+  BaseEntity,
+  Column,
+  Entity,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  JoinColumn,
+  OneToMany,
+  CreateDateColumn,
+} from "typeorm";
+
+import { User } from "./user.entity";
+import { UserAddress } from "./user-address.entity";
 import { OrderItem } from "./order-item.entity";
 
-@Entity()
+@Entity({ name: "orders" })
 export class Order extends BaseEntity {
-    @PrimaryGeneratedColumn()
-    id: number;
+  @PrimaryGeneratedColumn()
+  order_ID: number;
 
-    @Column()
-    first_name: string;
+  @Column()
+  user_ID: number;
 
-    @Column()
-    last_name: string; 
+  @Column()
+  address_ID: number;
 
-    @Column()
-    email: string;
+  @Column({
+    type: "decimal",
+    precision: 10,
+    scale: 2,
+  })
+  subtotal: number;
 
-    @CreateDateColumn()
-    created_at: string;
+  @Column({
+    type: "decimal",
+    precision: 10,
+    scale: 2,
+    default: 0,
+  })
+  discount: number;
 
-    @OneToMany(() => OrderItem, (order_item) => order_item.order)
-    order_items: OrderItem[];
+  @Column({
+    type: "decimal",
+    precision: 10,
+    scale: 2,
+    default: 0,
+  })
+  shipping_charge: number;
 
-    get name(): string {
-        return `${this.first_name} ${this.last_name}`
-    }
+  @Column({
+    type: "decimal",
+    precision: 10,
+    scale: 2,
+  })
+  total_amount: number;
 
-    get total(): number {
-        return this.order_items.reduce((sum, item) => sum + item.price * item.quantity, 0)
-    }
+  @Column()
+  payment_method: string;
+
+  @Column({ default: "Pending" })
+  payment_status: string;
+
+  @Column({ default: "Placed" })
+  order_status: string;
+
+  @CreateDateColumn()
+  created_at: Date;
+
+  /* USER */
+  @ManyToOne(() => User, {
+    onDelete: "CASCADE",
+  })
+  @JoinColumn({ name: "user_ID" })
+  user: User;
+
+  /* ADDRESS */
+  @ManyToOne(() => UserAddress, {
+    onDelete: "CASCADE",
+  })
+  @JoinColumn({ name: "address_ID" })
+  address: UserAddress;
+
+  /* ORDER ITEMS */
+  @OneToMany(
+    () => OrderItem,
+    (item) => item.order
+  )
+  order_items: OrderItem[];
 }

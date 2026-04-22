@@ -1,44 +1,151 @@
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn, ManyToOne, OneToMany } from "typeorm";
-import { Category } from "./category.entity"; // Import your Category entity
-import { ProductImage } from "./productimage.entity"; // Import your ProductImage entity
+import {
+  BaseEntity,
+  Column,
+  Entity,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  OneToMany,
+  JoinColumn,
+  CreateDateColumn,
+  UpdateDateColumn,
+} from "typeorm";
+
+import { Category } from "./category.entity";
+import { ProductImage } from "./productimage.entity";
+import { VariantType } from "./varianttype.entity";
 
 @Entity({ name: "product" })
 export class Product extends BaseEntity {
-    @PrimaryGeneratedColumn()
-    id: number;
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @Column()
-    title: string;
+  @Column({ length: 255 })
+  title: string;
 
-    @Column()
-    description: string;
+  @Column({
+    length: 255,
+    nullable: true,
+  })
+  slug: string;
 
-    @Column({ type: "mediumtext" })
-    mainimage: string;
+  @Column({
+    type: "longtext",
+    nullable: true,
+  })
+  description: string;
 
-    @Column()
-    tagline: string;
+  @Column({
+    type: "text",
+    nullable: true,
+  })
+  short_description: string;
 
-    @Column()
-    benefits: string;
+  @Column({
+    nullable: true,
+  })
+  tagline: string;
 
-    @Column()
-    price: number;
+  @Column({
+    type: "text",
+    nullable: true,
+  })
+  benefits: string;
 
+  @Column({
+    nullable: true,
+  })
+  sku: string;
 
-    @Column()
-    discount_price: number;
+  @Column({
+    nullable: true,
+  })
+  brand: string;
 
-    @Column()
-    categoryId: number;
+  @Column({
+    type: "decimal",
+    precision: 10,
+    scale: 2,
+    default: 0,
+  })
+  price: number;
 
-    @Column({ nullable: false, default: 1 })
-    active: number;
+  @Column({
+    type: "decimal",
+    precision: 10,
+    scale: 2,
+    default: 0,
+  })
+  discount_price: number;
 
-    // Add this relationship
-    @ManyToOne(() => Category, (category) => category.products)
-    category: Category;
+  @Column()
+  categoryId: number;
 
-   @OneToMany(() => ProductImage, (images: ProductImage) => images.product)
-    productImages: ProductImage[];
+  @Column({
+    nullable: true,
+  })
+  varianttype_ID: number;
+
+  @Column({
+    type: "mediumtext",
+    nullable: true,
+  })
+  mainimage: string;
+
+  @Column({
+    default: 0,
+  })
+  stock: number;
+
+  @Column({
+    default: 0,
+  })
+  is_featured: number;
+
+  @Column({
+    default: 0,
+  })
+  is_new: number;
+
+  @Column({
+    default: 0,
+  })
+  is_trending: number;
+
+  @Column({
+    default: 1,
+  })
+  active: number;
+
+  @CreateDateColumn()
+  created_at: Date;
+
+  @UpdateDateColumn()
+  updated_at: Date;
+
+  /* CATEGORY */
+  @ManyToOne(
+    () => Category,
+    (category) => category.products
+  )
+  @JoinColumn({
+    name: "categoryId",
+  })
+  category: Category;
+
+  /* VARIANT TYPE */
+  @ManyToOne(
+    () => VariantType,
+    { nullable: true }
+  )
+  @JoinColumn({
+    name: "varianttype_ID",
+  })
+  variantType: VariantType;
+
+  /* PRODUCT IMAGES */
+  @OneToMany(
+    () => ProductImage,
+    (images) => images.product
+  )
+  productImages: ProductImage[];
 }

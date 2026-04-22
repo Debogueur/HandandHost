@@ -1,22 +1,60 @@
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn, ManyToOne } from "typeorm";
-import { Product } from "./product.entity"; // Import your Category entity
+import {
+  BaseEntity,
+  Column,
+  Entity,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  JoinColumn,
+  Unique,
+  CreateDateColumn,
+} from "typeorm";
+
+import { Product } from "./product.entity";
+import { ProductVariant } from "./productvariant.entity";
+import { User } from "./user.entity";
+
 @Entity({ name: "productaddtocart" })
-export class addtocart extends BaseEntity {
-    @PrimaryGeneratedColumn()
-    productaddtocart_ID: number;
+@Unique(["product_ID", "User_ID", "productvariant_ID"])
+export class ProductAddToCart extends BaseEntity {
+  @PrimaryGeneratedColumn()
+  productaddtocart_ID: number;
 
-    @Column()
-    product_ID: number;
+  /* ================= PRODUCT ================= */
+  @Column()
+  product_ID: number;
 
-    @Column()
-    User_ID: number;
+  @ManyToOne(() => Product, {
+    onDelete: "CASCADE",
+  })
+  @JoinColumn({ name: "product_ID" })
+  product: Product;
 
-    @Column()
-    quantity: number;
+  /* ================= VARIANT (IMPORTANT) ================= */
+  @Column({ nullable: true })
+  productvariant_ID: number;
 
-    // Add this relationship
-    @ManyToOne(() => Product, (product) => product.id)
-    product: Product;
+  @ManyToOne(() => ProductVariant, {
+    nullable: true,
+    onDelete: "CASCADE",
+  })
+  @JoinColumn({ name: "productvariant_ID" })
+  productVariant: ProductVariant;
 
+  /* ================= USER ================= */
+  @Column()
+  User_ID: number;
 
+  @ManyToOne(() => User, {
+    onDelete: "CASCADE",
+  })
+  @JoinColumn({ name: "User_ID" })
+  user: User;
+
+  /* ================= QUANTITY ================= */
+  @Column({ default: 1 })
+  quantity: number;
+
+  /* ================= TIMESTAMP ================= */
+  @CreateDateColumn()
+  created_at: Date;
 }

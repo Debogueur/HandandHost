@@ -9,7 +9,7 @@ import { CreateCategory, DeleteCategory, GetCategory, Categories, UpdateCategory
 import { HomeBanner } from "./controller/home.controller";
 import { subcategorylist } from "./controller/home.controller";
 import { Homeproduct } from "./controller/home.controller";
-import { AddProductToWishlist } from "./controller/wishlist.controller";
+import { AddProductToWishlist, RemoveProductFromWishlist } from "./controller/wishlist.controller";
 
 import { Upload } from "./controller/image.controller";
 import { Chart, Export, Orders } from "./controller/order.controller";
@@ -74,6 +74,7 @@ export const routes = (router: Router) => {
 
 
     router.post('/api/add-to-wishlist', AddProductToWishlist);
+    router.delete("/api/remove-wishlist/:id",RemoveProductFromWishlist);
 
 
     router.get('/api/home/products/view/:id', GetOneProduct);
