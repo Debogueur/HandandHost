@@ -11,6 +11,9 @@ import { subcategorylist } from "./controller/home.controller";
 import { Homeproduct } from "./controller/home.controller";
 import { AddProductToWishlist, RemoveProductFromWishlist } from "./controller/wishlist.controller";
 
+import { getMainPageReviews} from "./controller/productreview.controller";
+import { AddProductToCart } from "./controller/addtocart.controller";
+
 import { Upload } from "./controller/image.controller";
 import { Chart, Export, Orders } from "./controller/order.controller";
 import { PermissionMiddleware } from "./middleware/permission.middleware";
@@ -75,6 +78,12 @@ export const routes = (router: Router) => {
 
     router.post('/api/add-to-wishlist', AddProductToWishlist);
     router.delete("/api/remove-wishlist/:id",RemoveProductFromWishlist);
+
+    router.get('/api/product-review', getMainPageReviews);
+
+    router.post('/api/add-to-cart', AddProductToCart);
+
+    
 
 
     router.get('/api/home/products/view/:id', GetOneProduct);

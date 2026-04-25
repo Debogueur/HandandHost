@@ -31,17 +31,19 @@ export class ProductReview extends BaseEntity {
   @Column({ type: "text" })
   review: string;
 
+  
+  @Column({ type: "boolean", default: false })
+  postInMainPage: boolean;
+
   @CreateDateColumn()
   created_at: Date;
 
-  /* ---------------- PRODUCT RELATION ---------------- */
   @ManyToOne(() => Product, (product) => product.id, {
     onDelete: "CASCADE",
   })
   @JoinColumn({ name: "product_ID" })
   product: Product;
 
-  /* ---------------- USER RELATION ---------------- */
   @ManyToOne(() => User, (user) => user.id, {
     onDelete: "CASCADE",
   })
