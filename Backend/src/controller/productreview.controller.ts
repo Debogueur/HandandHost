@@ -9,11 +9,13 @@ export const getMainPageReviews = async (req: Request, res: Response) => {
       order: { created_at: "DESC" },
     });
 
+    // console.log('reviews..............................................',reviews)
+
     const formattedReviews = reviews.map((review) => ({
       id: review.review_ID,
       quote: review.review,
       rating: review.rating,
-      author: review.user?.first_name || "Anonymous",
+      author: review.user?.name || "Anonymous",
     //   avatar: review.user?.avatar || "/images/default-avatar.png",
       title: review.product?.title,
       price: review.product?.discount_price,

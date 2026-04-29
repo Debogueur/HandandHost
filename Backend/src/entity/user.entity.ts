@@ -1,14 +1,13 @@
+// user.entity.ts
+
 import {
   Column,
   Entity,
   PrimaryGeneratedColumn,
   BaseEntity,
-  ManyToOne,
-  JoinColumn,
   OneToMany,
 } from "typeorm";
 
-import { Role } from "./role.entity";
 import { UserAddress } from "./user-address.entity";
 
 @Entity({ name: "users" })
@@ -17,24 +16,26 @@ export class User extends BaseEntity {
   id: number;
 
   @Column()
-  first_name: string;
+  name: string;
 
-  @Column()
-  last_name: string;
-
-  @Column({
-    unique: true,
-  })
+  @Column({ unique: true })
   email: string;
 
   @Column()
   password: string;
 
-  @ManyToOne(() => Role)
-  @JoinColumn({ name: "role_id" })
-  role: Role;
+  @Column({ nullable: true })
+  token: string;
 
-  /* ✅ ADD THIS */
+  @Column({ nullable: true })
+  otp: string;
+
+  @Column({ nullable: true })
+  phone_number: string;
+
+  @Column({ nullable: true })
+  whatsapp_number: string;
+
   @OneToMany(() => UserAddress, (address) => address.user)
   addresses: UserAddress[];
 }

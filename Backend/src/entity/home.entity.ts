@@ -29,6 +29,9 @@ export class Home extends BaseEntity {
     @Column({ nullable: true })
     V_Description: string;
 
+    @Column({ nullable: false })
+    V_Type: string;
+
     @Column({ default: 1 })
     B_Active: number;
 

@@ -1,38 +1,77 @@
-import express from 'express';
-import cors from 'cors';
-import dotenv from 'dotenv';
-import { routes } from './routes';
-import { AppDataSource } from './core/database-config';
-import cookieParser from 'cookie-parser';
+import express from "express";
+import cors from "cors";
+import dotenv from "dotenv";
+import cookieParser from "cookie-parser";
+import helmet from "helmet";
+import rateLimit from "express-rate-limit";
+
+import { routes } from "./routes";
+import { AppDataSource } from "./core/database-config";
+
 dotenv.config();
 
-const start = () => {
-    try {
-        AppDataSource.initialize()
-            .then(() => {
-                const app = express();
+const start = async () => {
+  try {
+    await AppDataSource.initialize();
 
-                app.use(express.json());
-                app.use(cookieParser());
-                app.use(cors({
-                    credentials: true,
-                    origin: ["http://localhost:3000", "http://localhost:3002", "http://localhost:3001", "http://16.112.123.238"] // Adjust this to your frontend URL
-                }));
+    const app = express();
 
-                routes(app);
+    // ========================
+    // 🔐 SECURITY MIDDLEWARE
+    // ========================
 
-                app.listen(8000, () => {
-                    console.log('listenig to port 8000');
-                });
-            })
-            .catch((error) => console.log(error))
+    app.use(helmet()); // security headers
 
-    } catch (error) {
-        console.log(error);
-        throw new Error('Unable to connect db');
-    }
+    app.use(express.json({ limit: "10mb" })); // prevent large payload attacks
+    app.use(cookieParser());
+
+    // ========================
+    // 🌐 CORS CONFIG (SECURE)
+    // ========================
+    app.use(
+      cors({
+        credentials: true,
+        origin: [
+          "http://localhost:3000",
+          "http://localhost:3001",
+          "http://localhost:3002",
+          "http://16.112.123.238",
+          "http://16.112.161.106"
+        ],
+      })
+    );
+
+    // ========================
+    // 🚨 RATE LIMIT (ANTI-BRUTE FORCE)
+    // ========================
+    const limiter = rateLimit({
+      windowMs: 15 * 60 * 1000, // 15 minutes
+      max: 200, // limit per IP
+      message: {
+        success: false,
+        message: "Too many requests, please try again later.",
+      },
+    });
+
+    app.use(limiter);
+
+    // ========================
+    // 🧭 ROUTES
+    // ========================
+    routes(app);
+
+    // ========================
+    // 🚀 START SERVER
+    // ========================
+    const PORT = process.env.PORT || 8000;
+
+    app.listen(PORT, () => {
+      console.log(`🚀 Server running on port ${PORT}`);
+    });
+  } catch (error) {
+    console.log("DB Connection Error:", error);
+    throw new Error("Unable to connect DB");
+  }
 };
 
 start();
-
-
