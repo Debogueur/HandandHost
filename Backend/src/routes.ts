@@ -4,7 +4,7 @@ import { AuthMiddleware } from "./middleware/auth.middleware";
 import { CreateUser, DeleteUser, GetUser, UpdateUser, Users } from "./controller/user.controller";
 import { Permissions } from "./controller/permission.controller";
 import { CreateRole, DeleteRole, GetRole, Roles, UpdateRole } from "./controller/role.controller";
-import { CreateProduct,  GetProduct, GetOneProduct, Products,  GetProductDetails } from "./controller/product.controller";
+import { CreateProduct,  GetProduct, GetOneProduct, Products,  GetProductDetails, removeCart} from "./controller/product.controller";
 import { CreateCategory, DeleteCategory, GetCategory, Categories, UpdateCategory } from "./controller/category.controller";
 import { HomeBanner } from "./controller/home.controller";
 import { subcategorylist } from "./controller/home.controller";
@@ -103,5 +103,7 @@ export const routes = (router: Router) => {
     router.post('/api/forget-password', ForgotPassword);
 
     router.get('/api/certificates', ActiveCertificates); // certificates
+
+    router.delete("/api/remove-cart/:productid/:userid", removeCart);
 
 }

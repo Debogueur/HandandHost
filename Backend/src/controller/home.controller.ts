@@ -288,6 +288,10 @@ export const Homeproduct = async (req: Request, res: Response) => {
         .addSelect(
           "cart.productaddtocart_ID",
           "productaddtocart_ID"
+        )
+        .addSelect(
+          "cart.quantity",
+          "quantity"
         );
 
       const raw = await query.getRawAndEntities();
@@ -298,6 +302,7 @@ export const Homeproduct = async (req: Request, res: Response) => {
         productwishlist_ID: Number(raw.raw[index].productwishlist_ID || 0),
         isAddedToCart: Number(raw.raw[index].isAddedToCart || 0),
         productaddtocart_ID: Number(raw.raw[index].productaddtocart_ID || 0),
+        quantity: Number(raw.raw[index].quantity || 0)
       }));
 
       return res.send(result);
@@ -311,9 +316,12 @@ export const Homeproduct = async (req: Request, res: Response) => {
         isWishlisted: 0,
         productwishlist_ID: 0,
         isAddedToCart: 0,
+
       }))
     );
   } catch (error: any) {
     res.status(500).json({ message: error.message });
   }
 };
+
+

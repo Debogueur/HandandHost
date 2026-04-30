@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { Product } from "../entity/product.entity";
 import { ProductReview } from "../entity/productreview.entity";
+import { ProductAddToCart } from "../entity/addtocart.entity";
 import { AppDataSource } from "../core/database-config";
 
 // 1. Get all products with pagination and category relations
@@ -142,6 +143,8 @@ export const GetOneProduct = async (req: Request, res: Response) => {
 
     const { category, ...rest } = entity;
 
+    console.log('raw..............................................',raw);
+
     const response = {
       ...rest,
 
@@ -156,6 +159,7 @@ export const GetOneProduct = async (req: Request, res: Response) => {
       isAddedToCart: raw.isAddedToCart,
       productaddtocart_ID: raw.productaddtocart_ID,
       quantity: raw.cartQuantity || 0,
+      
 
       /* ================= VARIANT (ADDED) ================= */
       variant: entity.variantType
@@ -363,6 +367,47 @@ export const GetProductDetails = async (req: Request, res: Response) => {
 
   } catch (error: any) {
     return res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+
+
+export const removeCart = async (req: Request, res: Response) => {
+  try {
+    const productId = Number(req.params.productid);
+    const userId = Number(req.params.userid);
+
+    if (!productId && !userId) {
+      return res.status(400).json({
+        status: false,
+        message: "productcart_ID is required",
+      });
+    }
+
+    const cartRepo = AppDataSource.getRepository(ProductAddToCart);
+
+    //Direct delete (best way)
+    const result = await cartRepo.delete({
+      product_ID: productId,
+      User_ID: userId,
+    });
+
+    if (result.affected === 0) {
+      return res.status(404).json({
+        status: false,
+        message: "Unable to delete cart",
+      });
+    }
+
+    return res.status(200).json({
+      status: true,
+      message: "Item removed from cart",
+    });
+  } catch (error: any) {
+    console.error("Remove Cart Error:", error);
+    return res.status(500).json({
+      status: false,
       message: error.message,
     });
   }
