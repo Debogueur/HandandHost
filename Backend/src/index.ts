@@ -32,6 +32,8 @@ const start = async () => {
       cors({
         credentials: true,
         origin: [
+          "http://www.handandhost.com/",
+          "https://www.handandhost.com/",
           "http://localhost:3000",
           "http://localhost:3001",
           "http://localhost:3002",
